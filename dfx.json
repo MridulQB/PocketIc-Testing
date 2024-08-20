@@ -1,0 +1,27 @@
+{
+  "canisters": {
+    "pocketic_testing_backend": {
+      "candid": "src/pocketic_testing_backend/pocketic_testing_backend.did",
+      "package": "pocketic_testing_backend",
+      "type": "rust"
+    },
+    "pocketic_testing_frontend": {
+      "dependencies": [
+        "pocketic_testing_backend"
+      ],
+      "source": [
+        "src/pocketic_testing_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "pocketic_testing_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
