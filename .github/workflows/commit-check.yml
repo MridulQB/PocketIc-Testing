@@ -3,19 +3,23 @@ name: Commit Check
 on:
   push:
   pull_request:
-    branches: 'main'
+    branches:
+      - main
 
 jobs:
   commit-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: commit-check/commit-check-action@v1
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Commit Message Check
+        uses: commit-check/commit-check-action@v1
         with:
           message: true
           branch: true
           author-name: true
           author-email: true
           commit-signoff: true
-          dry-run: true
+          dry-run: false # Set to false to enforce the check
           job-summary: true
