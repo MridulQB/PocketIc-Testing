@@ -13,6 +13,24 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Validate Commit Messages
+        run: |
+          # Regex pattern to enforce Conventional Commits
+          pattern='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\-\.\,]+\))?(!)?: [\w ]+([\s\S]*)$'
+
+          # Fetch the commit messages
+          commits=$(git log --format=%B --no-merges -n 1)
+
+          # Check each commit message
+          echo "$commits" | while read -r commit_message; do
+            if ! [[ $commit_message =~ $pattern ]]; then
+              echo "Invalid commit message: \"$commit_message\""
+              echo "Commit messages must follow Conventional Commits format."
+              echo "See https://www.conventionalcommits.org/ for more details."
+              exit 1
+            fi
+          done
+
       - name: Run Commit Message Check
         uses: commit-check/commit-check-action@v1
         with:
@@ -21,5 +39,5 @@ jobs:
           author-name: true
           author-email: true
           commit-signoff: true
-          dry-run: false # Set to false to enforce the check
+          dry-run: false
           job-summary: true
