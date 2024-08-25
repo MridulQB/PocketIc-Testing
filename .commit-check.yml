@@ -1,7 +1,28 @@
 checks:
 
-  - check: message
-    regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ])+([\s\S]*)|(Merge).*|(fixup!.*)'
+  - check: message_type
+    regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)$'
+    error: "The commit message type is invalid. It should be one of the following:\n
+    build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test"
+    suggest: git commit --amend --no-verify
+
+  - check: message_scope
+    regex: '^(\([\w\-\.]+\))?$'
+    error: "The commit message scope is invalid. If included, it should be enclosed in parentheses, e.g., (scope)."
+    suggest: git commit --amend --no-verify
+
+  - check: message_breaking_change
+    regex: '^(!)?$'
+    error: "The commit message breaking change indicator is invalid. If included, it should be an exclamation mark (!) right after the scope."
+    suggest: git commit --amend --no-verify
+
+  - check: message_description
+    regex: '^([\w ]+)$'
+    error: "The commit message description is invalid. It should be a short and descriptive summary of the changes."
+    suggest: git commit --amend --no-verify
+
+  - check: message_full
+    regex: '^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test){1}(\([\w\-\.]+\))?(!)?: ([\w ]+)([\s\S]*)$|(Merge .*)|(fixup!.*)$'
     error: "The commit message should be structured as follows:\n\n
     <type>[optional scope]: <description>\n
     [optional body]\n
