@@ -13,6 +13,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Debug Commit Message Content
+        run: |
+          # Fetch the commit messages
+          commits=$(git log --format=%B --no-merges -n 1)
+
+          # Print the commit message to debug
+          echo "Commit message content: \"$commits\""
+
       - name: Validate Commit Messages
         run: |
           # Regex pattern to enforce Conventional Commits
