@@ -16,14 +16,14 @@ jobs:
       - name: Validate Commit Messages
         run: |
           # Regex pattern to enforce Conventional Commits
-          pattern='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\-\.]+\))?(!)?: [\w ]+([\s\S]*)$'
+          pattern='^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([\w\.\-]+\))?(!)?: .+'
 
           # Fetch the commit messages
           commits=$(git log --format=%B --no-merges -n 1)
 
           # Check each commit message
           echo "$commits" | while read -r commit_message; do
-            if ! [[ $commit_message =~ $pattern ]]; then
+            if ! [[ "$commit_message" =~ $pattern ]]; then
               echo "Invalid commit message: \"$commit_message\""
               echo "Commit messages must follow Conventional Commits format."
               echo "See https://www.conventionalcommits.org/ for more details."
